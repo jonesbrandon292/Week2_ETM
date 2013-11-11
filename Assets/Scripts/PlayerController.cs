@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 			return;
 		}
 		
-		GameLogic.GameRunning = false;
+		GameLogic.EndGame(false);
 		Destroy(gameObject);
 	}
 	
@@ -51,6 +51,13 @@ public class PlayerController : MonoBehaviour
 		{
 			BaseObstacleLogic obs = other.gameObject.GetComponent<BaseObstacleLogic>();
 			obs.HandleCollision(transform);
+			return;
+		}
+		
+		if(other.gameObject.tag == "Finish")
+		{
+			GameLogic.EndGame(true);
+			Destroy(gameObject);
 		}
 	}
 }

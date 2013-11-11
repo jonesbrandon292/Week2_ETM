@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CylinderObstacleLogic : MonoBehaviour 
+public class CylinderObstacleLogic : BaseObstacleLogic 
 {
 	public int MoveDirection = 1;
 	float moveSpeed = 30;

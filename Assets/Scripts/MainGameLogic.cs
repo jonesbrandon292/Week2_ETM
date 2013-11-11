@@ -21,10 +21,14 @@ public class MainGameLogic : MonoBehaviour
 	public GameObject m_cylinder_obstacle;
 	
 	public bool GameRunning;
+	public bool GameWon;
 	protected Rect m_window_area;
+	protected float startTime;
+	protected float endTime;
 	// Use this for initialization
 	void Start () 
 	{
+		GameWon = false;
 		GameRunning = true;
 		m_window_area = new Rect(0, 0, Screen.width, Screen.height);
 		
@@ -65,18 +69,20 @@ public class MainGameLogic : MonoBehaviour
 		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(-5, -5, 0), Quaternion.identity);
 		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(-5, -5, 5), Quaternion.identity);
 		
-		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(2.5f, -5, -5), Quaternion.identity);
-		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(2.5f, -5, 0), Quaternion.identity);
-		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(2.5f, -5, 5), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(2.5f, -5, Random.Range(-10, -5)), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(2.5f, -5, Random.Range(-2.5f, 2.5f)), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(2.5f, -5, Random.Range(5, 10)), Quaternion.identity);
 		
-		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(7.5f, -5, -5), Quaternion.identity);
-		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(7.5f, -5, 0), Quaternion.identity);
-		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(7.5f, -5, 5), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(7.5f, -5, Random.Range(-10, -5)), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(7.5f, -5, Random.Range(-2.5f, 2.5f)), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(7.5f, -5, Random.Range(5, 10)), Quaternion.identity);
 		
-		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(12.5f, -5, -5), Quaternion.identity);
-		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(12.5f, -5, 0), Quaternion.identity);
-		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(12.5f, -5, 5), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(12.5f, -5, Random.Range(-10, -5)), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(12.5f, -5, Random.Range(-2.5f, 2.5f)), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(12.5f, -5, Random.Range(5, 10)), Quaternion.identity);
 		//
+		
+		startTime = Time.time;
 	}		
 	
 	void OnGUI()
@@ -90,8 +96,22 @@ public class MainGameLogic : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				GUILayout.FlexibleSpace();
 				{
+					GUILayout.BeginVertical();
+					GUILayout.BeginHorizontal();
+					GUILayout.FlexibleSpace();
 					if(Player != null)
 						GUILayout.Label("Player Lives: " + Player.playerLives);
+					
+					GUILayout.FlexibleSpace();
+					GUILayout.EndHorizontal();
+					
+					GUILayout.BeginHorizontal();
+					GUILayout.FlexibleSpace();
+					GUILayout.Label("Time: " + (Time.time - startTime).ToString("0.00"));
+					GUILayout.FlexibleSpace();
+					GUILayout.EndHorizontal();
+					
+					GUILayout.EndVertical();
 				}
 				GUILayout.FlexibleSpace();
 				GUILayout.EndHorizontal();
@@ -103,7 +123,17 @@ public class MainGameLogic : MonoBehaviour
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
 				{
-					GUILayout.Label("Game Over");
+					if(GameWon)
+					{
+						GUILayout.BeginHorizontal();
+						GUILayout.FlexibleSpace();
+						GUILayout.Label("You Won!");
+						GUILayout.FlexibleSpace();
+						GUILayout.EndHorizontal();
+						GUILayout.Label("Time Completed: " + endTime.ToString("0.00"));
+					}
+					else
+						GUILayout.Label("You Lost...");
 					
 					if(GUILayout.Button("Main Menu"))
 					{
@@ -127,8 +157,10 @@ public class MainGameLogic : MonoBehaviour
 	
 	}
 	
-	public void GameOver()
+	public void EndGame(bool wonGame)
 	{
-		
+		GameWon = wonGame;
+		GameRunning = false;
+		endTime = Time.time - startTime;
 	}
 }
