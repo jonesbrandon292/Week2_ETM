@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{1C2BDA0B-258C-1AAD-3F6C-C73B3DC0251D}</ProjectGuid>
+	<ProjectGuid>{8E17F5C2-3CB9-21B8-A46B-5D70D7BFD1F7}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -44,7 +44,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BaseObstacleLogic.cs" />
+     <Compile Include="Assets\Scripts\CubeObstacleLogic.cs" />
+     <Compile Include="Assets\Scripts\MainGameLogic.cs" />
      <Compile Include="Assets\Scripts\MainMenuLogic.cs" />
+     <Compile Include="Assets\Scripts\PlayerController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
