@@ -46,6 +46,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\BaseObstacleLogic.cs" />
      <Compile Include="Assets\Scripts\CubeObstacleLogic.cs" />
+     <Compile Include="Assets\Scripts\CylinderObstacleLogic.cs" />
      <Compile Include="Assets\Scripts\MainGameLogic.cs" />
      <Compile Include="Assets\Scripts\MainMenuLogic.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />

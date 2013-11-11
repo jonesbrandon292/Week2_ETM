@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		
+		if(transform.position.y < startPosition.y - 5)
+			KillPlayer();
 	}
 	
 	public void KillPlayer()

@@ -3,24 +3,41 @@ using System.Collections;
 
 public class CubeObstacleLogic : BaseObstacleLogic 
 {
-	int moveDirection = 1;
-	float moveSpeed = 10;
-	float collisionForce = 50;
+	public int MoveDirection = 1;
+	float moveSpeed = 15;
+	bool sleeping;
+	float sleepBaseDuration = 1.0f;
+	float sleepCurDuration;
+	float sleepStart;
 	// Use this for initialization
 	void Start () 
 	{
-	
+		sleeping = true;
+		sleepStart = Time.time;
+		sleepCurDuration = sleepBaseDuration + Random.Range(0.0f, sleepBaseDuration);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		transform.Translate(0, 0, moveDirection * moveSpeed * Time.deltaTime);
-		
-		if((moveDirection > 0 && transform.position.z > 20) || 
-			(moveDirection < 0 && transform.position.z < -20))
+		if(sleeping)
 		{
-			moveDirection = -moveDirection;
+			if(Time.time >= sleepStart + sleepCurDuration)
+			{
+				sleeping = false;
+				MoveDirection = -MoveDirection;
+			}
+			return;
+		}
+		
+		transform.Translate(0, 0, MoveDirection * moveSpeed * Time.deltaTime);
+		
+		if((MoveDirection > 0 && transform.position.z > 20) || 
+			(MoveDirection < 0 && transform.position.z < -20))
+		{
+			sleeping = true;
+			sleepStart = Time.time;
+			sleepCurDuration = sleepBaseDuration + Random.Range(0.0f, sleepBaseDuration);
 		}
 	}
 }

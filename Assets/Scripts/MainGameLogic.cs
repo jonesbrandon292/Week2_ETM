@@ -7,13 +7,18 @@ public class MainGameLogic : MonoBehaviour
 	{
 		get
 		{
-			GameObject gameObject = GameObject.Find("Player");
+			GameObject gameObject = GameObject.FindGameObjectWithTag("Player");
 			if(gameObject == null)
 				return null;
 			
 			return gameObject.GetComponent<PlayerController>();
 		}
 	}
+	
+	//GameObjects
+	public GameObject m_player_template;
+	public GameObject m_cube_obstacle;
+	public GameObject m_cylinder_obstacle;
 	
 	public bool GameRunning;
 	protected Rect m_window_area;
@@ -22,7 +27,57 @@ public class MainGameLogic : MonoBehaviour
 	{
 		GameRunning = true;
 		m_window_area = new Rect(0, 0, Screen.width, Screen.height);
-	}
+		
+		Quaternion playerRotation = Quaternion.identity;
+		playerRotation.SetLookRotation(new Vector3(90, 0, 0));
+		GameObject.Instantiate(m_player_template, new Vector3(-16, 1, 0), playerRotation);
+		
+		//Spawning Cubes
+		GameObject obs = (GameObject)GameObject.Instantiate(m_cube_obstacle, new Vector3(-10, 0, -20), Quaternion.identity);
+		CubeObstacleLogic cubeObsLogic = obs.GetComponent<CubeObstacleLogic>();
+		if(cubeObsLogic != null)
+			cubeObsLogic.MoveDirection = -1;
+		
+		obs = (GameObject)GameObject.Instantiate(m_cube_obstacle, new Vector3(0, 0, 20), Quaternion.identity);
+		cubeObsLogic = obs.GetComponent<CubeObstacleLogic>();
+		if(cubeObsLogic != null)
+			cubeObsLogic.MoveDirection = 1;
+		
+		obs = (GameObject)GameObject.Instantiate(m_cube_obstacle, new Vector3(5, 0, -20), Quaternion.identity);
+		cubeObsLogic = obs.GetComponent<CubeObstacleLogic>();
+		if(cubeObsLogic != null)
+			cubeObsLogic.MoveDirection = -1;
+		
+		obs = (GameObject)GameObject.Instantiate(m_cube_obstacle, new Vector3(10, 0, 20), Quaternion.identity);
+		cubeObsLogic = obs.GetComponent<CubeObstacleLogic>();
+		if(cubeObsLogic != null)
+			cubeObsLogic.MoveDirection = 1;
+		
+		obs = (GameObject)GameObject.Instantiate(m_cube_obstacle, new Vector3(15, 0, -20), Quaternion.identity);
+		cubeObsLogic = obs.GetComponent<CubeObstacleLogic>();
+		if(cubeObsLogic != null)
+			cubeObsLogic.MoveDirection = -1;
+		//
+		
+		
+		//Spawning Cylinders
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(-5, -5, -5), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(-5, -5, 0), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(-5, -5, 5), Quaternion.identity);
+		
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(2.5f, -5, -5), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(2.5f, -5, 0), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(2.5f, -5, 5), Quaternion.identity);
+		
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(7.5f, -5, -5), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(7.5f, -5, 0), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(7.5f, -5, 5), Quaternion.identity);
+		
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(12.5f, -5, -5), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(12.5f, -5, 0), Quaternion.identity);
+		obs = (GameObject)GameObject.Instantiate(m_cylinder_obstacle, new Vector3(12.5f, -5, 5), Quaternion.identity);
+		//
+	}		
 	
 	void OnGUI()
 	{
@@ -34,7 +89,10 @@ public class MainGameLogic : MonoBehaviour
 			{
 				GUILayout.BeginHorizontal();
 				GUILayout.FlexibleSpace();
-				GUILayout.Label("Player Lives: " + Player.playerLives);
+				{
+					if(Player != null)
+						GUILayout.Label("Player Lives: " + Player.playerLives);
+				}
 				GUILayout.FlexibleSpace();
 				GUILayout.EndHorizontal();
 			}
@@ -44,13 +102,14 @@ public class MainGameLogic : MonoBehaviour
 				GUILayout.BeginHorizontal();
 				GUILayout.FlexibleSpace();
 				GUILayout.BeginVertical();
-				GUILayout.Label("Game Over");
-				
-				if(GUILayout.Button("Main Menu"))
 				{
-					Application.LoadLevel("MainMenu");
+					GUILayout.Label("Game Over");
+					
+					if(GUILayout.Button("Main Menu"))
+					{
+						Application.LoadLevel("MainMenu");
+					}
 				}
-				
 				GUILayout.EndVertical();
 				GUILayout.FlexibleSpace();
 				GUILayout.EndHorizontal();
